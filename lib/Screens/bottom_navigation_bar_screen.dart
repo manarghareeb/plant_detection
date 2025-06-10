@@ -37,6 +37,8 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
       HomeScreen(capturedImage: images.isNotEmpty ? images.last : null),  // new
       UploadScreen(images: images),
       CaptureScreen(onImageCaptured: addImage),
+      //HistoryScreen(diagnoses: [],),   // with model
+      //HistoryScreen(capturedImages: images,),
       HistoryScreen(),
     ];
     return Scaffold(

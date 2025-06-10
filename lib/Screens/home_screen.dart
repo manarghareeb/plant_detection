@@ -5,6 +5,7 @@ import 'package:plant_detection/Screens/detection_results_screen.dart';
 import 'package:plant_detection/const_themes.dart';
 
 import 'edit_profile_screen.dart';
+import 'logout_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final File? capturedImage;
@@ -40,6 +41,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => EditProfileScreen()),
+                );
+              } else if (value == "Logout") {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LogoutScreen()),
                 );
               }
             },
@@ -125,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => DetectionResultsScreen()),
+                          MaterialPageRoute(builder: (context) => DetectionResultsScreen(capturedImage: widget.capturedImage!,)),
                         );
                       },
                       child: Text(
