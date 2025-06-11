@@ -124,6 +124,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:network_info_plus/network_info_plus.dart';
 
 import '../Models/model.dart';
 
@@ -148,8 +149,7 @@ class _DetectionResultsScreenState extends State<DetectionResultsScreen> {
 
   Future<void> sendImageToServer(File imageFile) async {
     setState(() => loading = true);
-    final uri = Uri.parse("http://192.168.1.17:5000/predict");
-
+    final uri = Uri.parse("http://192.168.1.12:5000/predict");
     final request = http.MultipartRequest('POST', uri);
     request.files.add(await http.MultipartFile.fromPath('image', imageFile.path));
 
@@ -161,17 +161,12 @@ class _DetectionResultsScreenState extends State<DetectionResultsScreen> {
         setState(() {
           resultData = data;
         });
-
-
-        // حفظ البيانات في History
         final historyItem = HistoryItem(
           image: imageFile,
           diseaseName: data["disease"] ?? "None",
           date: DateTime.now(),
         );
-        HistoryManager.addHistoryItem(historyItem); // ⬅️ إضافة للسجل
-
-
+        HistoryManager.addHistoryItem(historyItem);
       } else {
         setState(() {
           resultData = {"error": "Connection Error: ${response.statusCode}"};
@@ -185,6 +180,67 @@ class _DetectionResultsScreenState extends State<DetectionResultsScreen> {
       setState(() => loading = false);
     }
   }
+
+  /*Future<void> sendImageToServer(File imageFile) async {
+    setState(() => loading = true);
+
+    // 1. احصل على الـ IP الحالي للجهاز
+    final networkInfo = NetworkInfo();
+    String? wifiIp;
+    try {
+      wifiIp = await networkInfo.getWifiIP(); // ⬅️ يحصل على IP الـ Wi-Fi
+    } catch (e) {
+      setState(() {
+        resultData = {"error": "Cannot detect WiFi IP: $e"};
+        loading = false;
+      });
+      return;
+    }
+
+    // 2. تأكد من وجود IP
+    if (wifiIp == null || wifiIp.isEmpty) {
+      setState(() {
+        resultData = {"error": "No WiFi connection detected"};
+        loading = false;
+      });
+      return;
+    }
+
+    // 3. استخدم الـ IP في عنوان URL (مع افتراض أن البورت هو 5000)
+    //final uri = Uri.parse("http://$wifiIp:5000/predict"); // ⬅️ IP ديناميكي
+    final uri = Uri.parse("http://192.168.30.233:5000/predict"); // ⬅️ IP ديناميكي
+
+
+    final request = http.MultipartRequest('POST', uri);
+    request.files.add(await http.MultipartFile.fromPath('image', imageFile.path));
+
+    try {
+      final response = await request.send();
+      if (response.statusCode == 200) {
+        final respStr = await response.stream.bytesToString();
+        final data = json.decode(respStr);
+        setState(() => resultData = data);
+
+        // حفظ التاريخ
+        final historyItem = HistoryItem(
+          image: imageFile,
+          diseaseName: data["disease"] ?? "None",
+          date: DateTime.now(),
+        );
+        HistoryManager.addHistoryItem(historyItem);
+      } else {
+        setState(() {
+          resultData = {"error": "Connection Error: ${response.statusCode}"};
+        });
+      }
+    } catch (e) {
+      setState(() {
+        resultData = {"error": "Error: $e"};
+      });
+    } finally {
+      setState(() => loading = false);
+    }
+  }*/
 
   Widget buildResultCard() {
     if (resultData == null) return SizedBox();
