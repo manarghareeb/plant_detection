@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plant_detection/Screens/login_screen.dart';
 //import 'package:shared_preferences/shared_preferences.dart'; // For clearing user data
 
 class LogoutScreen extends StatelessWidget {
@@ -38,7 +39,12 @@ class LogoutScreen extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               ElevatedButton(
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                  );
+                },
                 //onPressed: () => _logout(context),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red, // A distinct color for logout
