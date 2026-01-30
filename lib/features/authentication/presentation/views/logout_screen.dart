@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:plant_detection/Screens/login_screen.dart';
-//import 'package:shared_preferences/shared_preferences.dart'; // For clearing user data
+import 'package:plant_detection/features/authentication/presentation/views/login_screen.dart';
 
 class LogoutScreen extends StatelessWidget {
-  const LogoutScreen({Key? key}) : super(key: key);
+  const LogoutScreen({super.key});
 
   /*Future<void> _logout(BuildContext context) async {
     // 1. Clear user session data (e.g., authentication tokens)
@@ -24,7 +23,7 @@ class LogoutScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Logout', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
-        automaticallyImplyLeading: false, // Prevents a back button
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Padding(
@@ -45,9 +44,8 @@ class LogoutScreen extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => LoginScreen()),
                   );
                 },
-                //onPressed: () => _logout(context),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red, // A distinct color for logout
+                  backgroundColor: Colors.red, 
                   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -61,7 +59,7 @@ class LogoutScreen extends StatelessWidget {
               const SizedBox(height: 20),
               OutlinedButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Go back to the previous screen
+                  Navigator.of(context).pop();
                 },
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),

@@ -1,161 +1,11 @@
-// import 'dart:io';
-//
-// import 'package:flutter/material.dart';
-// import 'package:image_picker/image_picker.dart';
-// import 'package:plant_detection/const_themes.dart';
-//
-// class EditProfileScreen extends StatefulWidget {
-//   const EditProfileScreen({super.key});
-//
-//   @override
-//   State<EditProfileScreen> createState() => _EditProfileScreenState();
-// }
-//
-// class _EditProfileScreenState extends State<EditProfileScreen> {
-//
-//   File? image;
-//   final picker = ImagePicker();
-//
-//   final TextEditingController nameController = TextEditingController();
-//   final TextEditingController emailController = TextEditingController();
-//   final TextEditingController phoneController = TextEditingController();
-//   final TextEditingController dobController = TextEditingController();
-//   final TextEditingController countryController = TextEditingController();
-//
-//   Future pickImage() async {
-//     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-//     if (pickedFile != null) {
-//       setState(() {
-//         image = File(pickedFile.path);
-//       });
-//     }
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: AppTheme.kBackgroundColor,
-//       appBar: AppBar(
-//         backgroundColor: Colors.transparent,
-//         elevation: 0,
-//         title: Text(
-//           "Personal Information",
-//           style: TextStyle(fontWeight: FontWeight.bold),
-//         ),
-//         centerTitle: true,
-//       ),
-//       body: SingleChildScrollView(
-//         padding: EdgeInsets.symmetric(horizontal: 24),
-//         child: Column(
-//           children: [
-//             SizedBox(height: 20),
-//             Stack(
-//               children: [
-//                 CircleAvatar(
-//                   radius: 65,
-//                   //backgroundColor: Colors.white,
-//                   backgroundImage: image != null
-//                       ? FileImage(image!)
-//                       : AssetImage("assets/default_profile.png") as ImageProvider,
-//                 ),
-//                 Positioned(
-//                   bottom: 0,
-//                   right: 0,
-//                   child: GestureDetector(
-//                     onTap: pickImage,
-//                     child: Container(
-//                       padding: EdgeInsets.all(6),
-//                       decoration: BoxDecoration(
-//                         shape: BoxShape.circle,
-//                         color: Colors.black,
-//                       ),
-//                       child: Icon(Icons.camera_alt, color: Colors.white, size: 18),
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//             SizedBox(height: 30),
-//             buildLabelledField("Name", nameController),
-//             buildLabelledField("Email", emailController),
-//             buildLabelledField("Mobile number", phoneController),
-//             buildLabelledField("Date of Birth", dobController, onTap: () async {
-//               DateTime? pickedDate = await showDatePicker(
-//                 context: context,
-//                 initialDate: DateTime(2002, 5, 31),
-//                 firstDate: DateTime(1900),
-//                 lastDate: DateTime.now(),
-//               );
-//               if (pickedDate != null) {
-//                 dobController.text = "${pickedDate.day.toString().padLeft(2, '0')}/"
-//                     "${pickedDate.month.toString().padLeft(2, '0')}/"
-//                     "${pickedDate.year}";
-//               }
-//             }),
-//             buildLabelledField("Country/Region", countryController),
-//             SizedBox(height: 40),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-//
-//   Widget buildTextField(String label, TextEditingController controller,
-//       {TextInputType keyboardType = TextInputType.text, VoidCallback? onTap}) {
-//     return Padding(
-//       padding: const EdgeInsets.symmetric(vertical: 8.0),
-//       child: TextField(
-//         controller: controller,
-//         keyboardType: keyboardType,
-//         readOnly: onTap != null,
-//         onTap: onTap,
-//         decoration: InputDecoration(
-//           labelText: label,
-//           border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-//         ),
-//       ),
-//     );
-//   }
-//
-//   Widget buildLabelledField(String label, TextEditingController controller,
-//       {VoidCallback? onTap}) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Text(label,
-//             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-//         SizedBox(height: 6),
-//         TextField(
-//           controller: controller,
-//           readOnly: onTap != null,
-//           onTap: onTap,
-//           decoration: InputDecoration(
-//             filled: true,
-//             fillColor: AppTheme.kBackgroundColor,
-//             contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-//             border: OutlineInputBorder(
-//               borderRadius: BorderRadius.circular(10),
-//               borderSide: BorderSide(color: Colors.grey.shade300),
-//             ),
-//             enabledBorder: OutlineInputBorder(
-//               borderRadius: BorderRadius.circular(10),
-//               borderSide: BorderSide(color: Colors.grey.shade300),
-//             ),
-//           ),
-//         ),
-//         SizedBox(height: 16),
-//       ],
-//     );
-//   }
-// }
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:plant_detection/const_themes.dart';
+import 'package:plant_detection/core/theme/const_themes.dart';
+import 'package:plant_detection/core/widgets/custom_buttom_widget.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -180,6 +30,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void initState() {
     super.initState();
     _loadUserData();
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    dobController.dispose();
+    countryController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadUserData() async {
@@ -323,8 +183,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   as ImageProvider,
                 ),
                 Positioned(
-                  bottom: 0,
-                  right: 0,
+                  bottom: 2,
+                  right: 2,
                   child: GestureDetector(
                     onTap: pickImage,
                     child: Container(
@@ -341,10 +201,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ],
             ),
             const SizedBox(height: 30),
-            buildLabelledField("Name", nameController),
-            buildLabelledField("Email", emailController),
-            buildLabelledField("Mobile number", phoneController),
-            buildLabelledField("Date of Birth", dobController, onTap: () async {
+            LabelledField(label: "Name", controller: nameController),
+            LabelledField(label: "Email", controller: emailController),
+            LabelledField(label: "Mobile number", controller: phoneController),
+            LabelledField(label: "Date of Birth", controller: dobController, onTap: () async {
               DateTime? pickedDate = await showDatePicker(
                 context: context,
                 initialDate: DateTime.now(),
@@ -358,36 +218,32 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     "${pickedDate.year}";
               }
             }),
-            buildLabelledField("Country/Region", countryController),
+            LabelledField(label: "Country/Region", controller: countryController),
             const SizedBox(height: 40),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _isLoading ? null : _updateProfile,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: _isLoading
-                    ? const CircularProgressIndicator(color: Colors.white)
-                    : const Text(
-                  'Save Changes',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
+            CustomButtomWidget(text: 'Save Changes', isLoading: _isLoading),
             const SizedBox(height: 40),
           ],
         ),
       ),
     );
   }
+}
 
-  Widget buildLabelledField(String label, TextEditingController controller,
-      {VoidCallback? onTap}) {
-    return Column(
+class LabelledField extends StatelessWidget {
+  final String label;
+  final TextEditingController controller;
+  final VoidCallback? onTap;
+
+  const LabelledField({
+    super.key,
+    required this.label,
+    required this.controller,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label,
@@ -415,15 +271,5 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         const SizedBox(height: 16),
       ],
     );
-  }
-
-  @override
-  void dispose() {
-    nameController.dispose();
-    emailController.dispose();
-    phoneController.dispose();
-    dobController.dispose();
-    countryController.dispose();
-    super.dispose();
   }
 }

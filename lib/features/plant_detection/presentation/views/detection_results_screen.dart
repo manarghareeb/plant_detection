@@ -124,9 +124,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:network_info_plus/network_info_plus.dart';
 
-import '../Models/model.dart';
+import '../../../../core/Models/model.dart';
 
 class DetectionResultsScreen extends StatefulWidget {
   final File capturedImage;
@@ -149,7 +148,7 @@ class _DetectionResultsScreenState extends State<DetectionResultsScreen> {
 
   Future<void> sendImageToServer(File imageFile) async {
     setState(() => loading = true);
-    final uri = Uri.parse("http://192.168.1.12:5000/predict");
+    final uri = Uri.parse("http://192.168.221.233:5000/predict");
     final request = http.MultipartRequest('POST', uri);
     request.files.add(await http.MultipartFile.fromPath('image', imageFile.path));
 
@@ -294,8 +293,8 @@ class _DetectionResultsScreenState extends State<DetectionResultsScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // ✅ الصورة
-            Container(
+            // image display
+            SizedBox(
               width: double.infinity,
               height: 250,
               child: Image.file(
@@ -304,8 +303,7 @@ class _DetectionResultsScreenState extends State<DetectionResultsScreen> {
               ),
             ),
             SizedBox(height: 20),
-
-            // ✅ أثناء التحميل
+            // loading indicator
             if (loading) Column(
               children: const [
                 CircularProgressIndicator(),
@@ -313,8 +311,7 @@ class _DetectionResultsScreenState extends State<DetectionResultsScreen> {
                 Text("Analyzing...", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
               ],
             ),
-
-            // ✅ النتائج
+            // result card
             if (!loading) buildResultCard(),
           ],
         ),

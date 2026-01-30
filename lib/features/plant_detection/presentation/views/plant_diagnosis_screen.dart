@@ -113,6 +113,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
 class PlantDiagnosisScreen extends StatefulWidget {
+  const PlantDiagnosisScreen({super.key});
+
   @override
   _PlantDiagnosisScreenState createState() => _PlantDiagnosisScreenState();
 }
