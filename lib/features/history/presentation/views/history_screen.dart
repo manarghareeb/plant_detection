@@ -1,9 +1,9 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:plant_detection/const_themes.dart';
+import 'package:plant_detection/core/theme/const_themes.dart';
+import 'package:plant_detection/core/widgets/bottom_nav_shadow.dart';
 
-import '../Models/model.dart';
+import '../../../../core/Models/model.dart';
 
 class HistoryScreen extends StatefulWidget {
   //final List<File> capturedImages;
@@ -94,42 +94,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               bottom: 0,
               left: 0,
               right: 0,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 13, right: 13),
-                child: Container(
-                  width: double.infinity,
-                  height: 1,
-                  decoration: BoxDecoration(
-                    color: AppTheme.kPrimaryColor,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppTheme.kPrimaryColor.withOpacity(1),
-                        spreadRadius: 5,
-                        blurRadius: 10,
-                        offset: Offset(0, 6),
-                      ),
-                      BoxShadow(
-                        color: AppTheme.kPrimaryColor.withOpacity(0.3),
-                        spreadRadius: 3,
-                        blurRadius: 10,
-                        offset: Offset(0, -6),
-                      ),
-                      BoxShadow(
-                        color: AppTheme.kPrimaryColor.withOpacity(0.5),
-                        spreadRadius: 7,
-                        blurRadius: 15,
-                        offset: Offset(6, 0),
-                      ),
-                      BoxShadow(
-                        color: AppTheme.kPrimaryColor.withOpacity(0.5),
-                        spreadRadius: 7,
-                        blurRadius: 15,
-                        offset: Offset(-6, 0),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              child: const BottomNavShadow(),
             ),
           ],
         ),

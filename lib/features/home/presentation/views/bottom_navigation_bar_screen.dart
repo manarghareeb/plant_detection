@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:plant_detection/Screens/home_screen.dart';
-import 'package:plant_detection/Screens/upload_screen.dart';
-import '../const_themes.dart';
-import 'capture_screen.dart';
-import 'history_screen.dart';
+import 'package:plant_detection/features/home/presentation/views/home_screen.dart';
+import 'package:plant_detection/features/plant_detection/presentation/views/upload_screen.dart';
+import '../../../../core/theme/const_themes.dart';
+import '../../../plant_detection/presentation/views/capture_screen.dart';
+import '../../../history/presentation/views/history_screen.dart';
 
 class BottomNavigationBarScreen extends StatefulWidget {
   const BottomNavigationBarScreen({super.key});
@@ -34,16 +34,13 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
   @override
   Widget build(BuildContext context) {
     final screens = [
-      HomeScreen(capturedImage: images.isNotEmpty ? images.last : null),  // new
+      HomeScreen(capturedImage: images.isNotEmpty ? images.last : null),
       UploadScreen(images: images),
       CaptureScreen(onImageCaptured: addImage),
-      //HistoryScreen(diagnoses: [],),   // with model
-      //HistoryScreen(capturedImages: images,),
       HistoryScreen(),
     ];
     return Scaffold(
       body: screens[currentIndex],
-      // Bottom Navigation Bar
       bottomNavigationBar: ClipRRect(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
@@ -83,4 +80,3 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
     );
   }
 }
-

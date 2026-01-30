@@ -2,8 +2,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:plant_detection/core/widgets/bottom_nav_shadow.dart';
 
-import '../const_themes.dart';
+import '../../../../core/theme/const_themes.dart';
 
 class CaptureScreen extends StatelessWidget {
   final Function(File) onImageCaptured;
@@ -64,7 +65,6 @@ class CaptureScreen extends StatelessWidget {
                     onPressed: () => takePicture(context),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                      //textStyle: const TextStyle(fontSize: 18),
                       minimumSize: const Size(250, 60),
                     ),
                   ),
@@ -87,42 +87,7 @@ class CaptureScreen extends StatelessWidget {
               bottom: 0,
               left: 0,
               right: 0,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 13, right: 13),
-                child: Container(
-                  width: double.infinity,
-                  height: 1,
-                  decoration: BoxDecoration(
-                    color: AppTheme.kPrimaryColor,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppTheme.kPrimaryColor.withOpacity(1),
-                        spreadRadius: 5,
-                        blurRadius: 10,
-                        offset: const Offset(0, 6),
-                      ),
-                      BoxShadow(
-                        color: AppTheme.kPrimaryColor.withOpacity(0.3),
-                        spreadRadius: 3,
-                        blurRadius: 10,
-                        offset: const Offset(0, -6),
-                      ),
-                      BoxShadow(
-                        color: AppTheme.kPrimaryColor.withOpacity(0.5),
-                        spreadRadius: 7,
-                        blurRadius: 15,
-                        offset: const Offset(6, 0),
-                      ),
-                      BoxShadow(
-                        color: AppTheme.kPrimaryColor.withOpacity(0.5),
-                        spreadRadius: 7,
-                        blurRadius: 15,
-                        offset: const Offset(-6, 0),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              child: const BottomNavShadow(),
             ),
           ],
         ),
