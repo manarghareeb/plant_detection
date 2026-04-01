@@ -196,8 +196,8 @@ flutter run -d windows
 | Platform | Link |
 |---|---|
 | 🐙 GitHub | [github.com/manarghareeb/plant_detection](https://github.com/manarghareeb) |
-| 💼 LinkedIn | [linkedin.com/in/your-profile](https://linkedin.com/in/manar-ghareeb) |
-| 📧 Email | manarghareeb1973@example.com |
+| 💼 LinkedIn | [linkedin.com/in/manar-ghareeb](https://linkedin.com/in/manar-ghareeb) |
+| 📧 Email | manarghareeb1973@gmail.com |
 
 ---
 
